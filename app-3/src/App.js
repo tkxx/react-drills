@@ -3,16 +3,30 @@ import logo from "./logo.svg";
 import "./App.css";
 
 class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      searchFilter: "",
+      dogNames: ["Luna", "Spot", "Link", "Clifford", "Pikachu"]
+    };
+  }
+  handleName(filter) {
+    this.setState({ searchFilter: filter });
+  }
+
   render() {
+    let dogNamesFiltered = this.state.dogNames
+      .filter((dogNames, index) => {
+        return dogNames.includes(this.state.searchFilter);
+      })
+      .map((dogNames, index, array) => {
+        return <h2 key={index}>{dogNames}</h2>;
+      });
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <input onChange={e => this.handleName(e.target.value)} />
+        {dogNamesFiltered}
       </div>
     );
   }
